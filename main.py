@@ -12,6 +12,14 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
+for tweet in api.search_tweets(q='O brasil vai virar venezuela',count='10'):
+    try:
+        print("usuario: @"+tweet.user.screen_name)
+    except tweepy.TweepyError as e:
+        print(e.reason)
+    except StopIteration:
+        break
+   
 client=tweepy.Client(
     bearer_token=os.getenv('BEARER'),
     consumer_key=consumer_key,
@@ -20,11 +28,11 @@ client=tweepy.Client(
     access_token_secret=access_token_secret, 
 )
 
+try:
+    tweet = client.create_tweet(text='Tweetando pelo python!')
+    print(tweet)
 
-for tweet in api.search_tweets(q='O brasil vai virar venezuela',count='10'):
-    try:
-        print("usuario: @"+tweet.user.screen_name)
-    except tweepy.TweepyError as e:
-        print(e.reason)
-    except StopIteration:
-        break
+except Exception as e:
+    print(e)
+
+
